@@ -1,5 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import { Button, Input } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 const Login = ({navigation}) => {
 
@@ -10,17 +14,31 @@ const Login = ({navigation}) => {
     const handleLogin = () => {
         console.log("handleLogin {"+ username+ ","+ password+ "}" );
         
-        navigation.navigate('Profile', {name: username})
+        navigation.navigate('Profile', {name: username, email: "millys@email.com"})
     
     }
 
     return(
         <View>
             
-            <TextInput placeholder="Usuário" onChangeText={onChangeUsername} value={username} />
-            <TextInput placeholder="Senha" onChangeText={onChangePassword} value={password} />
+            <Input 
+                placeholder="username@email.com" 
+                leftIcon={ { type: "font-awesome", name: "envelope"} }
+                onChangeText={onChangeUsername}
+            />
 
-            <Button title="Entrar" onPress={handleLogin} />
+            <Input 
+                placeholder="Informe a senha" 
+                leftIcon={ { type: "font-awesome", name: "lock"} }
+                onChangeText={onChangePassword}
+                secureTextEntry={true}
+            />
+
+            <Button
+                title="Login 2" 
+                onPress={handleLogin}
+            />
+
             
         </View>
     );
