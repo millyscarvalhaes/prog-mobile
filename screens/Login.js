@@ -14,7 +14,7 @@ const Login = ({navigation}) => {
     const handleLogin = () => {
         console.log("handleLogin {"+ username+ ","+ password+ "}" );
         
-        navigation.navigate('Profile', {name: username, email: "millys@email.com"})
+        navigation.navigate('Dashboard', {name: username, email: "millys@email.com"})
     
     }
 
