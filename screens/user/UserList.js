@@ -1,22 +1,43 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
+import { Button, Icon} from 'react-native-elements';
 import { ListItem, Avatar } from 'react-native-elements';
+
+//Service
+import UserService from '../../services/UserService';
 
 const UserList = ({navigation}) => {
 
-    const list = [
-        {
-          name: 'Amy Farha',
-          avatar_url: 'https://randomuser.me/api/portraits/thumb/men/75.jpg',
-          subtitle: 'Vice President'
-        },
-        {
-          name: 'Chris Jackson',
-          avatar_url: 'https://randomuser.me/api/portraits/thumb/men/75.jpg',
-          subtitle: 'Vice Chairman'
-        },
-    ]
+    const [userList, onChangeUserList] = React.useState([]);
+
+    // Construtor - ComponentDidMount
+    React.useEffect( () => {
+
+        UserService.list()
+            .then( (response) => {
+                onChangeUserList(response.data);
+            });
+
+        navigation.setOptions({
+            title: "Lista de usuários",
+            headerRight: () => (
+                <View style={styles.flexContainer} >
+                    <Button
+                        type="clear"
+                        onPress={ () => handleOnPressAdd() }
+                        icon={ <Icon name='add-circle-outline' size={30} type='ionicon' color='#333333' /> }
+                    />
+
+                </View>
+            )
+        });
+
+    } );
+
+    const handleOnPressAdd = () => {
+        navigation.navigate('UserForm')
+    }
 
     const handleOnPress = (item) => {
         navigation.navigate('UserDetails', {user: item})
@@ -27,13 +48,13 @@ const UserList = ({navigation}) => {
             <Text> Perfil do {name} </Text>
             
             {
-                list.map( (item, index) => (
+                userList.map( (item, index) => (
 
                     <ListItem key={index} bottomDivider onPress={ () => handleOnPress(item) }>
-                        <Avatar source={{uri: item.avatar_url}} rounded />
+                        <Avatar source={{uri: item.thumb}} rounded />
                         <ListItem.Content >
                             <ListItem.Title>{item.name}</ListItem.Title>
-                            <ListItem.Subtitle>{item.subtitle}</ListItem.Subtitle>
+                            <ListItem.Subtitle>{item.postion}</ListItem.Subtitle>
                         </ListItem.Content>
                 
                     </ListItem>

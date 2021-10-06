@@ -7,6 +7,10 @@ const UserDetails = ({navigation, route}) => {
 
     const {user} = route.params;
 
+    const handleOnPressUpdate = () => {
+        navigation.navigate('UserForm')
+    }
+
     // Construtor - ComponentDidMount
     React.useLayoutEffect( () => {
 
@@ -16,7 +20,8 @@ const UserDetails = ({navigation, route}) => {
                 <View style={styles.flexContainer} >
                     <Button
                         type="clear"
-                        icon={ <Icon name='refresh-circle-outline' size={30} type='ionicon' color='#333333' /> }
+                        onPress={ () => handleOnPressUpdate() }
+                        icon={ <Icon name='pencil-sharp' size={30} type='ionicon' color='#333333' /> }
                     />
 
                     <Button

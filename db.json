@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Amy Farha",
+      "position": "Vice President",
+      "thumb": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Chris Jackson",
+      "position": "Badeco",
+      "thumb": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
+    },
+    {
+      "id": "yTBThPe",
+      "name": "Millys",
+      "position": "Badeco",
+      "thumb": ""
+    }
+  ]
+}
