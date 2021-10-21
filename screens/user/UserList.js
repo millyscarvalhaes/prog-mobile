@@ -1,25 +1,25 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
+// Components
 import { Button, Icon} from 'react-native-elements';
 import { ListItem, Avatar } from 'react-native-elements';
 
-//Service
-import UserService from '../../services/UserService';
+// Redux
+import { connect } from "react-redux";
+import {userList} from "../../redux/actions/UserAction";
+import {userFilter} from "../../redux/filters/UserFilter";
 
-const UserList = ({navigation}) => {
+const UserList = (props) => {
 
     const [userList, onChangeUserList] = React.useState([]);
 
     // Construtor - ComponentDidMount
     React.useEffect( () => {
+        
+        props.userList();
 
-        UserService.list()
-            .then( (response) => {
-                onChangeUserList(response.data);
-            });
-
-        navigation.setOptions({
+        props.navigation.setOptions({
             title: "Lista de usuários",
             headerRight: () => (
                 <View style={styles.flexContainer} >
@@ -36,11 +36,11 @@ const UserList = ({navigation}) => {
     } );
 
     const handleOnPressAdd = () => {
-        navigation.navigate('UserForm')
+        props.navigation.navigate('UserForm')
     }
 
-    const handleOnPress = (item) => {
-        navigation.navigate('UserDetails', {user: item})
+    const handleOnPress = (userId) => {
+        props.navigation.navigate('UserDetails', {userId: userId})
     }
 
     return(
@@ -48,13 +48,13 @@ const UserList = ({navigation}) => {
             <Text> Perfil do {name} </Text>
             
             {
-                userList.map( (item, index) => (
+                props.userArray.map( (item, index) => (
 
-                    <ListItem key={index} bottomDivider onPress={ () => handleOnPress(item) }>
+                    <ListItem key={index} bottomDivider onPress={ () => handleOnPress(item.id) }>
                         <Avatar source={{uri: item.thumb}} rounded />
                         <ListItem.Content >
                             <ListItem.Title>{item.name}</ListItem.Title>
-                            <ListItem.Subtitle>{item.postion}</ListItem.Subtitle>
+                            <ListItem.Subtitle>{item.position}</ListItem.Subtitle>
                         </ListItem.Content>
                 
                     </ListItem>
@@ -71,4 +71,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default UserList;
+export default connect(userFilter, {userList})(UserList) ;

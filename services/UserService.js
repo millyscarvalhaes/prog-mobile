@@ -7,8 +7,24 @@ const list = () => {
 }
 
 const save = (user) => {
-    return axios.post(API_URL,user);
+
+    if(user.id == undefined){
+        return axios.post(API_URL,user);
+    } 
+    else {
+        return axios.put(API_URL+"/"+user.id,user);
+    }
+
+
 }
 
-export default { list, save }
+const findById = (id) => {
+    return axios.get(API_URL+"/"+id);
+}
+
+const deleteById = (id) => {
+    return axios.delete(API_URL+"/"+id)
+}
+
+export default { list, save, findById, deleteById }
 

@@ -11,13 +11,17 @@ import { Formik } from 'formik';
 import UserService from '../../services/UserService';
 
 
-const UserForm = () => {
+const UserForm = ({navigation, route}) => {
 
-    const user = {
-        id: "",
-        name: "",
-        position: "",
-        thumb: ""
+    const [userItem, onChangeUserItem] = React.useState({});
+
+    const {userId} = route.params || {};
+    if( userId !== undefined){
+        UserService.findById(userId)
+            .then( reponse => {
+                onChangeUserItem(reponse.data);
+                console.log(reponse.data)
+            });
     }
 
     const handleOnSubmit = (values) => {
@@ -25,7 +29,17 @@ const UserForm = () => {
         console.log(values);
 
         UserService.save(values);
+        navigation.navigate('UserList');
 
+    }
+
+    const userValues = () => {
+        return {
+            id: userItem.id || undefined,
+            name: userItem.name || "",
+            position: userItem.position || "",
+            thumb: userItem.thumb || ""
+        }
     }
 
     return (
@@ -33,8 +47,9 @@ const UserForm = () => {
             <Text>User Form</Text>
 
             <Formik
-                initialValues={user}
+                initialValues={ userValues() }
                 onSubmit={ (values) => { handleOnSubmit(values) } }
+                enableReinitialize
             >
 
                 {({handleChange, handleSubmit,values}) => (

@@ -13,26 +13,34 @@ import UserList from './screens/user/UserList';
 import UserDetails from './screens/user/UserDetails';
 import UserForm from './screens/user/UserForm';
 
+// integração com redux
+import {Provider} from "react-redux";
+import store from "./redux/store"
+
+
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-      <NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
         
-        <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="Login">
 
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Dashboard" component={Dashboard} />
 
-          <Stack.Screen name="UserList" component={UserList} />
-          <Stack.Screen name="UserDetails" component={UserDetails} />
-          <Stack.Screen name="UserForm" component={UserForm} />
+            <Stack.Screen name="UserList" component={UserList} />
+            <Stack.Screen name="UserDetails" component={UserDetails} />
+            <Stack.Screen name="UserForm" component={UserForm} />
 
-        </Stack.Navigator>
+          </Stack.Navigator>
 
 
-      </NavigationContainer>
-    
+        </NavigationContainer>
+      </Provider>
+      
   );
 }
 
