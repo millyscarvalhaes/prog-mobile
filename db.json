@@ -13,16 +13,22 @@
       "thumb": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
     },
     {
-      "id": "yTBThPe",
-      "name": "Millys",
-      "position": "Badeco",
+      "id": "scA0Uwr",
+      "name": "Bruno Jozé Teste 2",
+      "position": "Teste",
       "thumb": ""
     },
     {
-      "id": "5_mowy_",
-      "name": "Fulano",
-      "position": "Gerente",
+      "id": "Xa-nMKs",
+      "name": "Bruno Brunão Alterado",
+      "position": "Bruneira",
       "thumb": ""
+    },
+    {
+      "name": "Novo",
+      "position": "Novo",
+      "thumb": "",
+      "id": "Ii3y6bo"
     }
   ]
 }

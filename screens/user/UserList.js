@@ -12,11 +12,9 @@ import {userFilter} from "../../redux/filters/UserFilter";
 
 const UserList = (props) => {
 
-    const [userList, onChangeUserList] = React.useState([]);
-
     // Construtor - ComponentDidMount
-    React.useEffect( () => {
-        
+    /* HOOKS */
+    React.useEffect(() => {
         props.userList();
 
         props.navigation.setOptions({
@@ -32,8 +30,7 @@ const UserList = (props) => {
                 </View>
             )
         });
-
-    } );
+    }, []);
 
     const handleOnPressAdd = () => {
         props.navigation.navigate('UserForm')

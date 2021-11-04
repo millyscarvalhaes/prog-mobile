@@ -10,35 +10,39 @@ import { Formik } from 'formik';
 //Service
 import UserService from '../../services/UserService';
 
+// Redux
+import { connect } from "react-redux";
+import {userSave, userFindById} from "../../redux/actions/UserAction";
+import {userFilter} from "../../redux/filters/UserFilter";
 
-const UserForm = ({navigation, route}) => {
 
-    const [userItem, onChangeUserItem] = React.useState({});
+const UserForm = (props) => {
 
-    const {userId} = route.params || {};
-    if( userId !== undefined){
-        UserService.findById(userId)
-            .then( reponse => {
-                onChangeUserItem(reponse.data);
-                console.log(reponse.data)
-            });
-    }
+    const {userId} = props.route.params || {};
+
+    
+
+     // Construtor - ComponentDidMount
+     React.useEffect( () => {
+
+        if( userId !== undefined){
+            props.userFindById(userId);
+        }
+
+     }, []);
 
     const handleOnSubmit = (values) => {
-        console.log(" Form Submit");
-        console.log(values);
-
-        UserService.save(values);
-        navigation.navigate('UserList');
+        props.userSave(values);
+        props.navigation.navigate('UserList');
 
     }
 
     const userValues = () => {
         return {
-            id: userItem.id || undefined,
-            name: userItem.name || "",
-            position: userItem.position || "",
-            thumb: userItem.thumb || ""
+            id: props.userItem.id || undefined,
+            name: props.userItem.name || "",
+            position: props.userItem.position || "",
+            thumb: props.userItem.thumb || ""
         }
     }
 
@@ -74,4 +78,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default UserForm;
+export default connect(userFilter, {userSave, userFindById})(UserForm)

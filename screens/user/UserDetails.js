@@ -4,13 +4,14 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Button, Icon, Overlay} from 'react-native-elements';
 import Modal from 'modal-react-native-web'; // apenas para DEV
 
-//Service
-import UserService from '../../services/UserService';
+// Redux
+import { connect } from "react-redux";
+import {userFindById, userDeleteById} from "../../redux/actions/UserAction";
+import {userFilter} from "../../redux/filters/UserFilter";
 
-const UserDetails = ({navigation, route}) => {
+const UserDetails = (props) => {
 
-    const {userId} = route.params;
-    const [userItem, onChangeUserItem] = React.useState({});
+    const {userId} = props.route.params;
     const [visible, setVisible] = React.useState(false);
 
     const toggleOverlay = () => {
@@ -18,25 +19,20 @@ const UserDetails = ({navigation, route}) => {
       };
 
     const handleOnPressUpdate = () => {
-        navigation.navigate('UserForm', {userId: userId})
+        props.navigation.navigate('UserForm', {userId: userId})
     }
 
     const handleOnPressDelete = () => {
-        UserService.deleteById( userItem.id)
-            .then( response => {
-                navigation.navigate('UserList');
-            })
+        props.userDeleteById(props.userItem.id);
+        props.navigation.navigate('UserList')
     }
 
     // Construtor - ComponentDidMount
     React.useEffect( () => {
 
-        UserService.findById(userId)
-            .then( reponse => {
-                onChangeUserItem(reponse.data);
-            });
+        props.userFindById(userId);
 
-        navigation.setOptions({
+        props.navigation.setOptions({
             title: "Detalhes do usuário",
             headerRight: () => (
                 <View style={styles.flexContainer} >
@@ -56,16 +52,16 @@ const UserDetails = ({navigation, route}) => {
             )
         });
 
-    } );
+    },[]);
 
     return (
         <View>
-            <Text>Name: {userItem.name}</Text>
-            <Text>Position: {userItem.position}</Text>
+            <Text>Name: {props.userItem.name}s </Text>
+            <Text>Position: {props.userItem.position}</Text>
 
             <Overlay  ModalComponent={Modal} isVisible={visible} onBackdropPress={toggleOverlay}>
                     <Text style={styles.textHeader}>Confirmação !</Text>
-                    <Text>Deseja excluir o {userItem.name} ?</Text>
+                    <Text>Deseja excluir o {props.userItem.name} ?</Text>
 
                     <View  style={styles.container}>
                         <Button
@@ -118,4 +114,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default UserDetails;
+export default connect(userFilter,{userFindById, userDeleteById})(UserDetails);
